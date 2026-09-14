@@ -54,19 +54,20 @@
     }
     #skip-video-btn {
         position: absolute;
-        bottom: max(6%, 24px);
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(20, 20, 24, 0.85);
-        border: 2px solid #fff;
+        bottom: max(4%, 18px);
+        right: max(4%, 18px);
+        background: rgba(0, 0, 0, 0.35);
+        border: 1px solid rgba(255, 255, 255, 0.7);
         color: #fff;
-        padding: 12px 24px;
-        border-radius: 30px;
-        font-size: 15px;
-        font-weight: bold;
+        padding: 7px 14px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.3px;
         cursor: pointer;
         z-index: 99999;
         pointer-events: auto;
+        backdrop-filter: blur(2px);
     }
 
     /* ====== 3) TELA DE INFORMAÇÕES ====== */
@@ -126,6 +127,9 @@
 </head>
 <body>
 
+    <!-- ====== ÁUDIO DE FUNDO (toca a partir da tela de informações) ====== -->
+    <audio id="bg-music" src="musicainfo.mp3" preload="auto" loop></audio>
+
     <!-- ====== 1) CAPA (toque em qualquer lugar) ====== -->
     <div id="cover" onclick="startJourney()">
         <img src="capa.png" alt="Toque para começar">
@@ -136,7 +140,7 @@
         <video id="main-video" playsinline webkit-playsinline preload="auto">
             <source src="video.mp4" type="video/mp4">
         </video>
-        <button id="skip-video-btn" onclick="goToMainInfo()">⏭️ Pular vídeo</button>
+        <button id="skip-video-btn" onclick="goToMainInfo()">Pular ›</button>
     </div>
 
     <!-- ====== 3) TELA DE INFORMAÇÕES ====== -->
@@ -196,18 +200,25 @@
             const info = document.getElementById('main-info');
             info.style.display = 'block';
             info.classList.add('active');
+
+            const music = document.getElementById('bg-music');
+            music.play().catch(e => console.log('Música bloqueada até interação:', e));
         }
 
         // ====== BOTÕES DA TELA DE INFORMAÇÕES ======
         function openWhatsApp() {
+            document.getElementById('bg-music').pause();
             window.open("https://wa.me/5585999975955", "_blank", "noopener");
         }
 
         function openMaps() {
+            document.getElementById('bg-music').pause();
             window.open("https://www.google.com/maps/place/R.+Pedro+M.+Gondin+Filho,+531+-+Barra+Nova,+Caucaia+-+CE,+61625-200/@-3.7027685,-38.6640467,16z/data=!4m6!3m5!1s0x7c0b55aad9f48a7:0x46bedd4caa452f47!8m2!3d-3.7027685!4d-38.6640467!16s%2Fg%2F11lymx526c", "_blank", "noopener");
         }
 
         function openDressCode() {
+            // Não mexe na música aqui de propósito — é uma tela interna,
+            // não um link externo, então a música continua tocando
             document.getElementById('dresscode-screen').classList.add('active');
         }
 
