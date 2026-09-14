@@ -9,8 +9,8 @@
 <!-- IMPORTANTE: troque "SEU-SITE-AQUI" pelo endereço real depois de publicar -->
 <meta property="og:title" content="Veruska • 50 Anos">
 <meta property="og:description" content="Vamos voltar no tempo e celebrar juntos! Confira o convite.">
-<meta property="og:image" content="https://SEU-SITE-AQUI/zap.png">
-<meta property="og:url" content="https://SEU-SITE-AQUI/">
+<meta property="og:image" content="https://tamycreativy.github.io/Veruska50/zap.png">
+<meta property="og:url" content="https://tamycreativy.github.io/Veruska50/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -203,6 +203,13 @@
 
             const music = document.getElementById('bg-music');
             music.play().catch(e => console.log('Música bloqueada até interação:', e));
+
+            // Reforço: se o navegador bloqueou o autoplay, o primeiro toque
+            // em qualquer lugar da tela de informações libera a música
+            info.addEventListener('click', function unlockMusic() {
+                if (music.paused) music.play().catch(() => {});
+                info.removeEventListener('click', unlockMusic);
+            }, { once: true });
         }
 
         // ====== BOTÕES DA TELA DE INFORMAÇÕES ======
