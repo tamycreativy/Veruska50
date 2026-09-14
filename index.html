@@ -6,23 +6,13 @@
 <title>Uma Noite Através do Tempo - 50 Anos da Veruska</title>
 
 <!-- Prévia ao compartilhar no WhatsApp/redes sociais -->
+<!-- IMPORTANTE: troque "SEU-SITE-AQUI" pelo endereço real depois de publicar -->
 <meta property="og:title" content="Veruska • 50 Anos">
 <meta property="og:description" content="Vamos voltar no tempo e celebrar juntos! Confira o convite.">
-
 <meta property="og:image" content="https://tamycreativy.github.io/Veruska50/zap.png">
-<meta property="og:image:secure_url" content="https://tamycreativy.github.io/Veruska50/zap.png">
-<meta property="og:image:type" content="image/png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Convite de 50 anos da Veruska">
-
 <meta property="og:url" content="https://tamycreativy.github.io/Veruska50/">
 <meta property="og:type" content="website">
-
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Veruska • 50 Anos">
-<meta name="twitter:description" content="Vamos voltar no tempo e celebrar juntos! Confira o convite.">
-<meta name="twitter:image" content="https://tamycreativy.github.io/Veruska50/zap.png">
 
 <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -36,16 +26,9 @@
         cursor: pointer;
         transition: opacity 0.6s ease, visibility 0.6s;
     }
-
-    #cover.hidden {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-    }
-
+    #cover.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
     #cover img {
-        width: 100%;
-        height: 100%;
+        width: 100%; height: 100%;
         object-fit: cover;
         display: block;
     }
@@ -60,19 +43,15 @@
         align-items: center;
         pointer-events: none;
     }
-
     #video-screen.active {
         display: flex;
         pointer-events: auto;
     }
-
     #main-video {
-        width: 100%;
-        height: 100%;
+        width: 100%; height: 100%;
         object-fit: contain;
         background: #000;
     }
-
     #skip-video-btn {
         position: absolute;
         bottom: max(4%, 18px);
@@ -94,29 +73,21 @@
     /* ====== 3) TELA DE INFORMAÇÕES ====== */
     #main-info {
         display: none;
-        position: fixed; inset: 0;
+        position: relative;
+        width: 100%;
         background: #000;
-        z-index: 100;
-        overflow-y: auto;
     }
-
-    #main-info.active {
-        display: block;
-    }
-
+    #main-info.active { display: block; }
     #main-info-photo {
         width: 100%;
         display: block;
     }
-
     .info-hotspot {
         position: absolute;
         width: 22%;
         height: 9%;
         cursor: pointer;
-        /* background: rgba(255,0,0,0.25); */
     }
-
     #hs-confirmar { left: 24%; top: 72.5%; }
     #hs-local     { left: 58.5%; top: 72.5%; }
     #hs-dresscode { left: 41%; top: 86.5%; }
@@ -129,20 +100,14 @@
         z-index: 300;
         overflow-y: auto;
     }
-
-    #dresscode-screen.active {
-        display: block;
-    }
-
+    #dresscode-screen.active { display: block; }
     #dresscode-screen img {
         width: 100%;
         display: block;
     }
-
     #back-btn {
         position: fixed;
-        top: 20px;
-        left: 20px;
+        top: 20px; left: 20px;
         background: rgba(20, 20, 24, 0.8);
         border: 2px solid #fff;
         color: #fff;
@@ -158,13 +123,12 @@
     }
 </style>
 </head>
-
 <body>
 
-    <!-- ====== ÁUDIO DE FUNDO ====== -->
+    <!-- ====== ÁUDIO DE FUNDO (toca a partir da tela de informações) ====== -->
     <audio id="bg-music" src="musicainfo.mp3" preload="auto" loop></audio>
 
-    <!-- ====== 1) CAPA ====== -->
+    <!-- ====== 1) CAPA (toque em qualquer lugar) ====== -->
     <div id="cover" onclick="startJourney()">
         <img src="capa.png" alt="Toque para começar">
     </div>
@@ -174,75 +138,41 @@
         <video id="main-video" playsinline webkit-playsinline preload="auto">
             <source src="video.mp4" type="video/mp4">
         </video>
-
-        <button id="skip-video-btn" onclick="goToMainInfo()">
-            Pular ›
-        </button>
+        <button id="skip-video-btn" onclick="goToMainInfo()">Pular ›</button>
     </div>
 
     <!-- ====== 3) TELA DE INFORMAÇÕES ====== -->
     <div id="main-info">
+        <img id="main-info-photo" src="infoveruska.png" alt="Informações da festa">
 
-        <img
-            id="main-info-photo"
-            src="infoveruska.png"
-            alt="Informações da festa"
-        >
-
-        <div
-            class="info-hotspot"
-            id="hs-confirmar"
-            onclick="openWhatsApp()"
-            title="Confirme presença">
-        </div>
-
-        <div
-            class="info-hotspot"
-            id="hs-dresscode"
-            onclick="openDressCode()"
-            title="Dress Code">
-        </div>
-
-        <div
-            class="info-hotspot"
-            id="hs-local"
-            onclick="openMaps()"
-            title="Localização">
-        </div>
-
+        <div class="info-hotspot" id="hs-confirmar" onclick="openWhatsApp()" title="Confirme presença"></div>
+        <div class="info-hotspot" id="hs-dresscode" onclick="openDressCode()" title="Dress Code"></div>
+        <div class="info-hotspot" id="hs-local" onclick="openMaps()" title="Localização"></div>
     </div>
 
     <!-- ====== 4) TELA DE DRESS CODE ====== -->
     <div id="dresscode-screen">
-
-        <button id="back-btn" onclick="closeDressCode()">
-            ← Voltar
-        </button>
-
+        <button id="back-btn" onclick="closeDressCode()">← Voltar</button>
         <img src="dress.png" alt="Dress Code">
-
     </div>
 
     <script>
-
         const video = document.getElementById('main-video');
 
-        // Alguns navegadores embutidos tentam jogar o vídeo
-        // para a tela cheia nativa mesmo com playsinline.
+        // Alguns navegadores embutidos (como o do Koder) tentam jogar o
+        // vídeo pra tela cheia nativa mesmo com playsinline. Isso força
+        // ele a voltar pro modo normal, dentro da nossa tela.
         video.addEventListener('webkitbeginfullscreen', () => {
             video.webkitExitFullscreen();
         });
-
         video.setAttribute('disablePictureInPicture', 'true');
         video.setAttribute('controlsList', 'nofullscreen');
 
         // ====== CAPA -> VÍDEO ======
         function startJourney() {
-
             document.getElementById('cover').classList.add('hidden');
 
             const videoScreen = document.getElementById('video-screen');
-
             videoScreen.style.display = 'flex';
             videoScreen.classList.add('active');
 
@@ -257,83 +187,53 @@
 
         // ====== VÍDEO -> INFORMAÇÕES ======
         function goToMainInfo() {
-
             const videoScreen = document.getElementById('video-screen');
-
             videoScreen.classList.remove('active');
-            videoScreen.style.display = 'none';
+            videoScreen.style.display = 'none'; // garante que some de vez, sem bloquear cliques
 
             video.pause();
-
             video.removeAttribute('src');
             video.load();
 
             const info = document.getElementById('main-info');
-
             info.style.display = 'block';
             info.classList.add('active');
 
+            // Libera a rolagem normal da página (a imagem pode ser mais alta
+            // que a tela em alguns aparelhos, e agora os botões rolam junto)
+            document.body.style.overflow = 'auto';
+
             const music = document.getElementById('bg-music');
+            music.play().catch(e => console.log('Música bloqueada até interação:', e));
 
-            music.play().catch(e =>
-                console.log('Música bloqueada até interação:', e)
-            );
-
-            // Libera a música após o primeiro toque,
-            // caso o navegador tenha bloqueado o autoplay.
+            // Reforço: se o navegador bloqueou o autoplay, o primeiro toque
+            // em qualquer lugar da tela de informações libera a música
             info.addEventListener('click', function unlockMusic() {
-
-                if (music.paused) {
-                    music.play().catch(() => {});
-                }
-
+                if (music.paused) music.play().catch(() => {});
                 info.removeEventListener('click', unlockMusic);
-
             }, { once: true });
         }
 
-        // ====== BOTÃO WHATSAPP ======
+        // ====== BOTÕES DA TELA DE INFORMAÇÕES ======
         function openWhatsApp() {
-
             document.getElementById('bg-music').pause();
-
-            window.open(
-                "https://wa.me/5585999975955",
-                "_blank",
-                "noopener"
-            );
+            window.open("https://wa.me/5585999975955", "_blank", "noopener");
         }
 
-        // ====== BOTÃO LOCALIZAÇÃO ======
         function openMaps() {
-
             document.getElementById('bg-music').pause();
-
-            window.open(
-                "https://www.google.com/maps/place/R.+Pedro+M.+Gondin+Filho,+531+-+Barra+Nova,+Caucaia+-+CE,+61625-200/@-3.7027685,-38.6640467,16z/data=!4m6!3m5!1s0x7c0b55aad9f48a7:0x46bedd4caa452f47!8m2!3d-3.7027685!4d-38.6640467!16s%2Fg%2F11lymx526c",
-                "_blank",
-                "noopener"
-            );
+            window.open("https://www.google.com/maps/place/R.+Pedro+M.+Gondin+Filho,+531+-+Barra+Nova,+Caucaia+-+CE,+61625-200/@-3.7027685,-38.6640467,16z/data=!4m6!3m5!1s0x7c0b55aad9f48a7:0x46bedd4caa452f47!8m2!3d-3.7027685!4d-38.6640467!16s%2Fg%2F11lymx526c", "_blank", "noopener");
         }
 
-        // ====== ABRIR DRESS CODE ======
         function openDressCode() {
-
-            // A música continua tocando nessa tela.
-            document
-                .getElementById('dresscode-screen')
-                .classList.add('active');
+            // Não mexe na música aqui de propósito — é uma tela interna,
+            // não um link externo, então a música continua tocando
+            document.getElementById('dresscode-screen').classList.add('active');
         }
 
-        // ====== FECHAR DRESS CODE ======
         function closeDressCode() {
-
-            document
-                .getElementById('dresscode-screen')
-                .classList.remove('active');
+            document.getElementById('dresscode-screen').classList.remove('active');
         }
-
     </script>
-
 </body>
 </html>
