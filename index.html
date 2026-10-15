@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Veruska 50 anos · Uma noite através do tempo</title>
+<meta name="description" content="Você foi convocado para uma festa que vai atravessar gerações. Dia 31/10, às 18h30.">
+<meta property="og:title" content="Veruska 50 anos! Uma noite através do tempo">
+<meta property="og:description" content="Você foi convocado para uma festa que vai atravessar gerações. Toque para abrir o convite.">
+<meta property="og:image" content="zap.png">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:#120806;overflow:hidden;font-family:system-ui,-apple-system,'Segoe UI',sans-serif}
+.tela{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .6s ease,visibility .6s}
+.tela.ativa{opacity:1;visibility:visible}
+.moldura{position:relative;width:min(100vw,calc(100vh * 1080 / 1920));aspect-ratio:1080/1920;max-height:100vh}
+.moldura img.fundo{display:block;width:100%;height:100%;user-select:none;-webkit-user-drag:none}
+/* CAPA */
+#capa{cursor:pointer}
+/* VÍDEO */
+#video{background:#000}
+#video video{display:block;width:100%;height:100%;max-width:min(100vw,calc(100vh * 1080 / 1920));margin:auto;object-fit:contain;background:#000}
+.pular{position:fixed;right:14px;bottom:max(18px,env(safe-area-inset-bottom));z-index:20;background:rgba(18,8,6,.72);color:#fff;border:1.5px solid #f0b36a;border-radius:999px;padding:9px 18px;font-size:15px;font-weight:700;cursor:pointer;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+/* INFORMAÇÕES: áreas clicáveis sobre os 4 botões da imagem */
+.hot{position:absolute;background:transparent;border:0;border-radius:50%;cursor:pointer;transition:background .2s,transform .15s}
+.hot:active{transform:scale(.94);background:rgba(255,255,255,.2)}
+.hot:focus-visible{outline:3px solid #ffd35c;outline-offset:2px}
+#h-conf{left:23.61%;top:69.69%;width:18.89%;height:10.62%}
+#h-local{left:59.54%;top:69.69%;width:19.26%;height:10.83%}
+#h-dress{left:23.15%;top:85.00%;width:20.00%;height:11.25%}
+#h-album{left:59.07%;top:84.90%;width:20.00%;height:11.25%}
+/* DRESS CODE */
+#dress{background:rgba(18,8,6,.97)}
+#dress .caixa{position:relative;max-width:100vw;max-height:100vh;display:flex;align-items:center;justify-content:center}
+#dress img{display:block;max-width:100vw;max-height:100vh;object-fit:contain}
+.voltar{position:fixed;top:max(14px,env(safe-area-inset-top));left:14px;z-index:20;background:linear-gradient(#a2452a,#6b2414);color:#fff;border:2px solid #f0b36a;border-radius:999px;padding:9px 18px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.5)}
+</style>
+</head>
+<body>
+
+<!-- 1) CAPA -->
+<section class="tela ativa" id="capa" onclick="abrirConvite()" aria-label="Capa do convite dos 50 anos da Veruska. Toque para abrir">
+  <div class="moldura"><img class="fundo" src="capa.png" alt="Convite Veruska 50 anos"></div>
+</section>
+
+<!-- 2) VÍDEO -->
+<section class="tela" id="video">
+  <video id="vd" src="video.mp4" playsinline webkit-playsinline preload="auto"></video>
+  <button class="pular" type="button" onclick="irParaInfo()">Pular ›</button>
+</section>
+
+<!-- 3) INFORMAÇÕES -->
+<section class="tela" id="info">
+  <div class="moldura">
+    <img class="fundo" src="infoveruska.png" alt="Dia 31/10 às 18:30. Confirme presença, localização, dress code e álbum de fotos">
+    <button class="hot" id="h-conf" type="button" onclick="abrirZap()" aria-label="Confirmar presença"></button>
+    <button class="hot" id="h-local" type="button" onclick="abrirMapa()" aria-label="Localização"></button>
+    <button class="hot" id="h-dress" type="button" onclick="abrirDress()" aria-label="Dress code"></button>
+    <button class="hot" id="h-album" type="button" onclick="abrirAlbum()" aria-label="Álbum de fotos"></button>
+  </div>
+</section>
+
+<!-- 4) DRESS CODE -->
+<section class="tela" id="dress">
+  <button class="voltar" type="button" onclick="fecharDress()">← Voltar</button>
+  <div class="caixa"><img src="dress.png" alt="Dress code"></div>
+</section>
+
+<script>
+// ===== CONFIGURE AQUI =====
+var WHATSAPP = '5585999975955';
+var MSG_ZAP  = 'Olá! Confirmo minha presença nos 50 anos da Veruska! 🎉';
+var ENDERECO = 'R. Pedro M. Gondin Filho, 531 - Barra Nova, Caucaia - CE';
+var ALBUM    = 'https://tamycreativy.github.io/albumveruska/';
+// ==========================
+
+var vd = document.getElementById('vd');
+function trocar(de, para){
+  document.getElementById(de).classList.remove('ativa');
+  document.getElementById(para).classList.add('ativa');
+}
+function abrirConvite(){
+  trocar('capa','video');
+  var p = vd.play();
+  if(p && p.catch){ p.catch(function(){ irParaInfo(); }); }
+}
+function irParaInfo(){
+  try{ vd.pause(); }catch(e){}
+  var ativa = document.querySelector('.tela.ativa');
+  if(ativa && ativa.id==='video') trocar('video','info');
+}
+vd.addEventListener('ended', irParaInfo);
+vd.addEventListener('error', irParaInfo);
+
+function abrirZap(){ window.open('https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(MSG_ZAP),'_blank','noopener'); }
+function abrirMapa(){ window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(ENDERECO),'_blank','noopener'); }
+function abrirAlbum(){ window.open(ALBUM,'_blank','noopener'); }
+function abrirDress(){ trocar('info','dress'); }
+function fecharDress(){ trocar('dress','info'); }
+document.addEventListener('keydown', function(e){
+  if(e.key==='Escape' && document.getElementById('dress').classList.contains('ativa')) fecharDress();
+  if((e.key==='Enter'||e.key===' ') && document.getElementById('capa').classList.contains('ativa')){ e.preventDefault(); abrirConvite(); }
+});
+['infoveruska.png','dress.png'].forEach(function(s){ var i=new Image(); i.src=s; });
+</script>
+</body>
+</html>
