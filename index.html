@@ -15,6 +15,16 @@ html,body{height:100%;background:#120806;overflow:hidden;font-family:system-ui,-
 .tela.ativa{opacity:1;visibility:visible}
 .moldura{position:relative;width:min(100vw,calc(100vh * 1080 / 1920));aspect-ratio:1080/1920;max-height:100vh}
 .moldura img.fundo{display:block;width:100%;height:100%;user-select:none;-webkit-user-drag:none}
+/* TABLET / PC (tela mais larga que o celular): o convite ocupa a tela inteira,
+   levemente ampliado (corte máx. ~5%) e as laterais são preenchidas por um desfoque da própria imagem */
+@media (min-aspect-ratio:9/16){
+  .tela{overflow:hidden}
+  .tela[style*="--bg"]::before{content:"";position:absolute;inset:-30px;background:var(--bg) center/cover;filter:blur(24px) brightness(.55)}
+  .moldura{height:105vh;height:105dvh;width:auto;max-height:none;flex:none}
+  #video video{max-width:none;width:100%;height:100%;object-fit:cover}
+  #dress .caixa{width:auto;max-width:none;max-height:none;height:100%}
+  #dress img{height:100%;width:auto;max-width:100vw;max-height:none}
+}
 /* CAPA */
 #capa{cursor:pointer}
 /* VÍDEO */
@@ -39,7 +49,7 @@ html,body{height:100%;background:#120806;overflow:hidden;font-family:system-ui,-
 <body>
 
 <!-- 1) CAPA -->
-<section class="tela ativa" id="capa" onclick="abrirConvite()" aria-label="Capa do convite dos 50 anos da Veruska. Toque para abrir">
+<section class="tela ativa" id="capa" style="--bg:url(capa.png)" onclick="abrirConvite()" aria-label="Capa do convite dos 50 anos da Veruska. Toque para abrir">
   <div class="moldura"><img class="fundo" src="capa.png" alt="Convite Veruska 50 anos"></div>
 </section>
 
@@ -50,7 +60,7 @@ html,body{height:100%;background:#120806;overflow:hidden;font-family:system-ui,-
 </section>
 
 <!-- 3) INFORMAÇÕES -->
-<section class="tela" id="info">
+<section class="tela" id="info" style="--bg:url(infoveruska.png)">
   <div class="moldura">
     <img class="fundo" src="infoveruska.png" alt="Dia 31/10 às 18:30. Confirme presença, localização, dress code e álbum de fotos">
     <button class="hot" id="h-conf" type="button" onclick="abrirZap()" aria-label="Confirmar presença"></button>
@@ -61,7 +71,7 @@ html,body{height:100%;background:#120806;overflow:hidden;font-family:system-ui,-
 </section>
 
 <!-- 4) DRESS CODE -->
-<section class="tela" id="dress">
+<section class="tela" id="dress" style="--bg:url(dress.png)">
   <button class="voltar" type="button" onclick="fecharDress()">← Voltar</button>
   <div class="caixa"><img src="dress.png" alt="Dress code"></div>
 </section>
